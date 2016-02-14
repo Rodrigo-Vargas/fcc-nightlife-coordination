@@ -1,0 +1,6 @@
+extends ../app
+block content
+  each bar in bars
+    div
+      span #{bar.name}
+      a(href="/hangouts/#{bar.id}/new") I will be there
