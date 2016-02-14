@@ -1,6 +1,65 @@
 extends ../app
 block content
+
+  #form-container
+    form(method="POST" action="/search")
+      .row
+        .col-xs-6
+          input(type="text" class="form-control" name="city" placeholder="Find cool places on your city")
+        .col-xs-6
+          button(type="submit" class="btn btn-default") SEARCH
+          
   each bar in bars
-    div
-      span #{bar.name}
-      a(href="/hangouts/#{bar.id}/new") I will be there
+    .col-xs-6
+      div.bar
+        div
+          h2 #{bar.name}
+
+          div.hangouts-count-container
+            if (user)
+              a(id="#{bar.id}" href="/hangouts/#{bar.id}/change" class="hangouts-count" data-bar-id="#{bar.id}") 
+            else
+              span(id="#{bar.id}" class="hangouts-count" data-bar-id="#{bar.id}") 
+
+
+  script(type="text/javascript").
+    registerHangoutsOfBars = function(){
+      $(".hangouts-count").each(function(){
+        var barId = $(this).data("bar-id");
+
+        $.ajax({
+          url: "/bar/" + barId + "/hangouts"
+        })
+        .done(function( hangouts ) {
+          var labelText = "";
+
+          var userWillGo = false;
+          var userId = $("#user-info").data("id");
+
+          hangouts.forEach(function(hangout){
+            if (hangout._user == userId)
+              userWillGo = true;
+          });
+        
+          if (userWillGo)
+          {
+            $("#" + barId).addClass("active");
+
+            if (hangouts.length == 1)
+              labelText = "Only you go";
+            else if (hangouts. length > 1)
+              labelText = "You and more " + hangouts.length - 1 + " people will go";
+          }
+          else
+          {
+            labelText = hangouts.length + " will go";
+          }
+
+          $("#" + barId).append(labelText);
+        });
+      });
+    }
+
+    $(document).ready(function(){
+      registerHangoutsOfBars();
+    });

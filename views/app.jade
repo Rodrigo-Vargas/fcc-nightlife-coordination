@@ -12,20 +12,12 @@ html
     #header
       .container
         .row
-          .col-xs-3
+          .col-xs-10
             #logo
-              a(href="/pools") Rvg Voting App
-          #nav.col-xs-7
-            ul
-              li
-                a(href="/pools") Pools
-              li
-                a(href="/mypools") My Pools
-              li
-                a(href="/about") About
+              a(href="/pools") Nightlife
           #info-user.col-xs-2
             if (user)
-              a(href="my-pools") #{ user.local.email }
+              a(id="user-info" href="/signout" data-id="#{user.id}") #{ user.local.email }
             else
               a(href="/login") Login
 
@@ -36,3 +28,8 @@ html
 
       block content
     
+    #footer
+      .container
+        span GitHub
+        span Rodrigo Vargas
+        span Copyright 2016

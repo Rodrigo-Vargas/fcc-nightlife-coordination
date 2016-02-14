@@ -3,7 +3,7 @@
 function users_controller (db) {
   
   this.signup = function(req, res){
-    res.render('users/register',{message: req.flash('message')});
+    res.render('users/register',{ message: req.flash('message') });
   }
 
   this.login = function(req, res) {

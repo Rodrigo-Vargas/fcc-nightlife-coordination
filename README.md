@@ -1,5 +1,13 @@
 # Nightlife coordination
 
+#TODO
+
+* User Story: As an unauthenticated user, when I login I should not have to search again.
+* Fix README
+* Put Yelp reference on layout
+* Fix package.json
+* Improve footer and header layout
+
 ## User Stories
 
 * User Story: As an unauthenticated user, I can view all bars in my area.

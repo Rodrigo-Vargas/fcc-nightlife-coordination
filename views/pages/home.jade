@@ -1,8 +1,10 @@
 extends ../app
 block content
-  "Hello"
-
-  form(method="GET" action="/search")
-    div.form-group
-      label Email
-      input(type="text" class="form-control" name="city")
+  
+  #form-container
+    form(method="POST" action="/search")
+      .row
+        .col-xs-6
+          input(type="text" class="form-control" name="city" placeholder="Find cool places on your city")
+        .col-xs-6
+          button(type="submit" class="btn btn-default") SEARCH

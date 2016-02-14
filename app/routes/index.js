@@ -3,11 +3,13 @@
 var UsersController = require(process.cwd() + '/app/controllers/users_controller.js');
 var PagesController = require(process.cwd() + '/app/controllers/pages_controller.js');
 var HangoutsController = require(process.cwd() + '/app/controllers/hangouts_controller.js');
+var BarsController = require(process.cwd() + '/app/controllers/bars_controller.js');
 
 module.exports = function (app, mongoose, passport) {
   var usersController = new UsersController(mongoose);
   var pagesController = new PagesController();
   var hangoutsController = new HangoutsController(mongoose);
+  var barsController = new BarsController(mongoose);
 
   var isAuthenticated = function (req, res, next) {
     if (req.isAuthenticated())
@@ -17,7 +19,7 @@ module.exports = function (app, mongoose, passport) {
 
   app.get('/', pagesController.home);
 
-  app.get('/search', pagesController.search);
+  app.post('/search', pagesController.search);
 
   /* Login */
   app.get('/login', usersController.login);
@@ -27,7 +29,7 @@ module.exports = function (app, mongoose, passport) {
     failureRedirect: '/login',
     failureFlash : true
   }));
- 
+  
   app.get('/signup', usersController.signup);
  
   app.post('/signup', passport.authenticate('local-signup', {
@@ -36,7 +38,9 @@ module.exports = function (app, mongoose, passport) {
     failureFlash : true
   }));
 
-  app.get('/hangouts/:id/new', isAuthenticated, hangoutsController.create);
+  app.get('/hangouts/:id/change', isAuthenticated, hangoutsController.change);
+
+  app.get('/bar/:id/hangouts', barsController.hangouts);
 
   app.get('/signout', usersController.signout);
 };

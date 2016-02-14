@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('connect-flash');
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -26,10 +27,14 @@ db.once('open', function() {
   app.use('/public', express.static(process.cwd() + '/public'));
   app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
   app.set('view engine', 'jade');
-  
+  app.use( bodyParser.json() );       // to support JSON-encoded bodies
+  app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+  }));
+
   var secret = process.env.SECRET || "secret";
 
-  app.use(cookieParser(secret));
+  app.use(cookieParser());
   app.use(flash());
 
   app.use(session({secret: secret}));
@@ -38,6 +43,9 @@ db.once('open', function() {
 
 
   require('./config/passport')(passport);
+
+  var Hangout = require('./app/models/hangout');
+  var newHangout = new Hangout;
 
   routes(app, mongoose, passport);
 

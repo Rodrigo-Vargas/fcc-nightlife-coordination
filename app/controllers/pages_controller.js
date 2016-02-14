@@ -2,12 +2,12 @@
 
 function pages_controller () {  
   this.home = function (req, res) {      
-    res.render('pages/home');
+    res.render('pages/home', { user: req.user });
   }
 
   this.search = function (req, res) {      
-    var terms = req.params.city;
-
+    var terms = req.body.city;
+    
     var request = require('request');
 
     var Yelp = require('yelp');
@@ -19,9 +19,9 @@ function pages_controller () {
       token_secret: process.env.TOKEN_SECRET,
     });
 
-    yelp.search({ location: 'Santa Cruz do Sul' })
+    yelp.search({ location: terms })
     .then(function (response) {
-      res.render('bars/index', {bars: response.businesses});
+      res.render('bars/index', {bars: response.businesses, user : req.user });
     })
     .catch(function (err) {
       res.end(data);
