@@ -7,7 +7,8 @@ function users_controller (db) {
   }
 
   this.login = function(req, res) {
-    res.render('users/login', { message: req.flash('message') });
+    res.render('users/login', { message: req.flash('message'),
+                                url : req.query.returnUrl });
   }
 
   this.signout = function(req, res) {

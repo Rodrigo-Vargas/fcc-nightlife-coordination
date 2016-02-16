@@ -2,11 +2,11 @@
 
 function pages_controller () {  
   this.home = function (req, res) {      
-    res.render('pages/home', { user: req.user });
+    res.render('bars/index', { user: req.user });
   }
 
   this.search = function (req, res) {      
-    var terms = req.body.city;
+    var terms = req.query.city;
     
     var request = require('request');
 
@@ -21,7 +21,9 @@ function pages_controller () {
 
     yelp.search({ location: terms })
     .then(function (response) {
-      res.render('bars/index', {bars: response.businesses, user : req.user });
+      res.render('bars/index', { bars: response.businesses, 
+                                 user : req.user,
+                                 path : req.protocol + '://' + req.get('host') + req.originalUrl });
     })
     .catch(function (err) {
       res.end(data);

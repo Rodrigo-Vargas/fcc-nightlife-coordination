@@ -2,24 +2,25 @@ extends ../app
 block content
 
   #form-container
-    form(method="POST" action="/search")
+    form(method="GET" action="/search")
       .row
         .col-xs-6
           input(type="text" class="form-control" name="city" placeholder="Find cool places on your city")
         .col-xs-6
           button(type="submit" class="btn btn-default") SEARCH
-          
-  each bar in bars
-    .col-xs-6
-      div.bar
-        div
-          h2 #{bar.name}
+        
+  if (bars)  
+    each bar in bars
+      .col-xs-6
+        div.bar
+          div
+            h2 #{bar.name}
 
-          div.hangouts-count-container
-            if (user)
-              a(id="#{bar.id}" href="/hangouts/#{bar.id}/change" class="hangouts-count" data-bar-id="#{bar.id}") 
-            else
-              span(id="#{bar.id}" class="hangouts-count" data-bar-id="#{bar.id}") 
+            div.hangouts-count-container
+              if (user)
+                a(id="#{bar.id}" href="/hangouts/#{bar.id}/change" class="hangouts-count" data-bar-id="#{bar.id}") 
+              else
+                span(id="#{bar.id}" class="hangouts-count" data-bar-id="#{bar.id}") 
 
 
   script(type="text/javascript").

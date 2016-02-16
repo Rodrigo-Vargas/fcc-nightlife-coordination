@@ -19,16 +19,36 @@ module.exports = function (app, mongoose, passport) {
 
   app.get('/', pagesController.home);
 
-  app.post('/search', pagesController.search);
+  app.get('/search', pagesController.search);
 
   /* Login */
   app.get('/login', usersController.login);
  
-  app.post('/login', passport.authenticate('local-login', {
+  /*app.post('/login', passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash : true
-  }));
+  }));*/
+
+  app.post('/login', function(req, res, next) {    
+    passport.authenticate('local-login', function(err, user, info) {
+      if (err)
+        return next(err);
+      
+      if (!user) 
+        return res.redirect('/login');
+
+      req.logIn(user, function(err) {
+        if (err) 
+          return next(err);
+        
+        if (req.body.url)
+          return res.redirect(req.body.url)
+        else
+          return res.redirect('/');
+      });
+    })(req, res, next);
+  })
   
   app.get('/signup', usersController.signup);
  

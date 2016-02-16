@@ -9,27 +9,35 @@ html
     script(src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript")
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript")
   body
-    #header
-      .container
-        .row
-          .col-xs-10
-            #logo
-              a(href="/pools") Nightlife
-          #info-user.col-xs-2
-            if (user)
-              a(id="user-info" href="/signout" data-id="#{user.id}") #{ user.local.email }
-            else
-              a(href="/login") Login
+    .wrapper
+      #header
+        .container
+          .row
+            .col-xs-10
+              #logo
+                a(href="/") Nightlife
+            #info-user.col-xs-2
+              if (user)
+                a(id="user-info" href="/signout" data-id="#{user.id}") #{ user.local.email }
+              else
+                a(href="/login?returnUrl=#{path}") Login
 
-    #content.container
-      if message && message.length > 0
-        div(role="alert").alert.alert-info
-          span #{message}
+    
+      #content.container
+        if message && message.length > 0
+          div(role="alert").alert.alert-info
+            span #{message}
 
-      block content
+        block content
+
+      .push
     
     #footer
       .container
-        span GitHub
-        span Rodrigo Vargas
-        span Copyright 2016
+        div.links
+          span by
+          a(href="www.rodrigovg.com.br" target="_blank") Rodrigo Vargas
+          a(href="https://github.com/Rodrigo-Vargas/fcc-nightlife-coordination" target="_blank") GitHub
+        div
+          span Powered by 
+          a(href="http://www.yelp.com.br" target="_blank") Yelp
